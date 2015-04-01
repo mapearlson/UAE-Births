@@ -90,7 +90,7 @@ pacf(ddts, lag.max=20) # plot a partial correlogram
 pacf(ddts, lag.max=20, plot=FALSE) 
 auto.arima(ddts)
 
-ddts.arima <- arima(kingstimeseries, order=c(0,1,1)) # fit an ARIMA(0,1,1) model
+ddts.arima <- arima(ddts, order=c(0,1,1)) # fit an ARIMA(0,1,1) model
 
 audts.diff <- diff(dts, differences=3)
 
