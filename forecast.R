@@ -88,19 +88,21 @@ acf(ddts, lag.max=20)
 acf(ddts, lag.max=20, plot=FALSE)
 pacf(ddts, lag.max=20) # plot a partial correlogram
 pacf(ddts, lag.max=20, plot=FALSE) 
-auto.arima(ddts)
+auto.arima(dts)
 
-ddts.arima <- arima(dts, order=c(2,0,2)) # fit an ARIMA(2,0,2) model
+ddts.arima <- arima(dts, order=c(4,2,3))# fit an ARIMA(4,2,3) model
+ddts.arima2 <- arima(dts, order=c(2,1,2))
 
 arima.forecast <- forecast.Arima(ddts.arima, h=10)
 arima.forecast
+summary(arima.forecast)
 plot(arima.forecast)
 
 acf(arima.forecast$residuals, lag.max=20)
 Box.test(arima.forecast$residuals, lag=20, type="Ljung-Box")
-Box-Ljung test
-data:  kingstimeseriesforecasts$residuals
-X-squared = 13.5844, df = 20, p-value = 0.851
+# Box-Ljung test
+# data:  arima.forecast$residuals
+# X-squared = 27.1241, df = 20, p-value = 0.1318
 
 plot.ts(arima.forecast$residuals) # make time plot of forecast errors
 plotForecastErrors(arima.forecast$residuals) # make a histogram
