@@ -132,8 +132,32 @@ plot(pop.ts, ylab="Total Population")
 ggplot() + geom_line(data=dts, aes(x = time, y = "Crude Birth Rate", color = isin)) 
 stat_smooth(data=arima.forecast$, aes(x = time, y = M, color = isin))
 
-line <- transform(d, date = as.character(year))
-m1 <- mPlot(x = "year", y = "rate", type = "Line", data = d)
-m1$set(pointSize = 0, lineWidth = 1)
+# although slightly out of chronology
+# I'll also use theEconomist from latticeExtra
+asTheEconomist(
+  xyplot(
+    dts,
+    scales = list( y = list( rot = 0 ) ),
+    main = "S&P 500 (lattice::xyplot.xts)"  
+  )
+)
+
+#
+d2<-d
+d$year <- format(d$year, "%Y")
+m1 <- mPlot(
+  rate ~ year,
+  data = d,
+  type = "Line"
+)
+m1$set( pointSize = 0 )
+m1$set( hideHover = "auto" )
 m1$print("chart2")
 
+#
+d2 <- d
+d2$year <- as.character(d2$year)
+m1 <- mPlot(x = "year", y = "rate", type = "Line", data = d2)
+m1$set(pointSize = 0, lineWidth = 1)
+m1$print("chart2")
+m1
