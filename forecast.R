@@ -178,3 +178,5 @@ m1 <- mPlot(x = "year", y = "rate", type = "Line", data = d2)
 m1$set(pointSize = 0, lineWidth = 1)
 m1$print("chart2")
 m1
+
+
