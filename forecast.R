@@ -134,11 +134,28 @@ stat_smooth(data=arima.forecast$, aes(x = time, y = M, color = isin))
 
 # although slightly out of chronology
 # I'll also use theEconomist from latticeExtra
+par(mfrow = c(3,1))
 asTheEconomist(
   xyplot(
     dts,
     scales = list( y = list( rot = 0 ) ),
-    main = "S&P 500 (lattice::xyplot.xts)"  
+    main = "Birth Rate"  
+  )
+)
+
+asTheEconomist(
+  xyplot(
+    fert.ts,
+    scales = list( y = list( rot = 0 ) ),
+    main = "Fertility Rate"  
+  )
+)
+
+asTheEconomist(
+  xyplot(
+    pop.ts,
+    scales = list( y = list( rot = 0 ) ),
+    main = "Total Population"  
   )
 )
 
