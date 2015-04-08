@@ -72,22 +72,16 @@ plot.forecast(popHW2.2)
 
 # predictive accuracy
 
-accuracy(fitHW)
+accuracy(popHW2.2)
 
-# predict next three future values
-forecast(popHW2, 7)
-plot(forecast(fitHW2, 7))
+# predict next seven future values
+forecast(popHW2.2, 7)
+plot(forecast(popHW2.2, 7))
 
-fitHW3 <- HoltWinters(dts, gamma=FALSE, l.start=48.290, b.start=-0.672)
-plot(fitHW)
+acf(popHW2.2$residuals, lag.max=20)
+Box.test(popHW2.2$residuals, lag=20, type="Ljung-Box")
 
-plot(forecast(fitHW3,7))
-forecast(fitHW3, 7)
-
-acf(fitHW2.2$residuals, lag.max=20)
-Box.test(fitHW2.2$residuals, lag=20, type="Ljung-Box")
-
-plot.ts(fitHW2.2$residuals)
+plot.ts(popHW2.2$residuals)
 plotForecastErrors(fitHW2.2$residuals)
 
 ###ARIMA
@@ -181,7 +175,7 @@ m1
 nat <- read.csv("national.csv")
 plot(nat$pop.n)
 
-#########################Fertility
+#########################Population
 # ARIMA
 pop.ts <- ts(d$total.pop, start=c(1960, 1), end=c(2012, 1), frequency=1) 
 acf(pop.ts)
@@ -199,6 +193,20 @@ pacf(pop.ts, lag.max=20) # plot a partial correlogram
 pacf(pop.ts, lag.max=20, plot=FALSE) 
 auto.arima(pop.ts)
 auto.arima(pop.diff)
+
+pop.arima <- arima(pop.ts, order=c(1,2,1))# fit an ARIMA(1,2,1) model
+
+pop.forecast <- forecast.Arima(pop.arima, h=10)
+pop.forecast
+summary(pop.forecast)
+plot(pop.forecast)
+accuracy(pop.forecast)
+
+acf(pop.forecast$residuals, lag.max=20)
+Box.test(pop.forecast$residuals, lag=20, type="Ljung-Box")
+# Box-Ljung test
+# data:  pop.forecast$residuals
+# X-squared = 58.2301, df = 20, p-value = 1.333e-05
 
 pop.arima <- arima(pop.ts, order=c(1,2,1))# fit an ARIMA(1,2,1) model
 
