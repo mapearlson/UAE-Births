@@ -183,46 +183,33 @@ plot(nat$pop.n)
 
 #########################Fertility
 # ARIMA
+pop.ts <- ts(d$total.pop, start=c(1960, 1), end=c(2012, 1), frequency=1) 
 acf(pop.ts)
 pacf(pop.ts)
-dts.diff <- diff(dts, differences=1)
-plot.ts(dts.diff)
+pop.diff <- diff(pop.ts, differences=1)
+plot.ts(pop.diff)
+plot.ts(pop.ts)
 
-############################
-pop.ts <- ts(d$total.pop, start=c(1960, 1), end=c(2012, 1), frequency=1) 
+plot(diff(log(pop.ts)))
+pop.diff <- diff(log(pop.ts))
 
+acf(pop.ts, lag.max=20)
+acf(pop.ts, lag.max=20, plot=FALSE)
+pacf(pop.ts, lag.max=20) # plot a partial correlogram
+pacf(pop.ts, lag.max=20, plot=FALSE) 
+auto.arima(pop.ts)
+auto.arima(pop.diff)
 
+pop.arima <- arima(pop.ts, order=c(1,2,1))# fit an ARIMA(1,2,1) model
 
-acf(fitHW2.2$residuals, lag.max=20)
-Box.test(fitHW2.2$residuals, lag=20, type="Ljung-Box")
+pop.forecast <- forecast.Arima(pop.arima, h=10)
+pop.forecast
+summary(pop.forecast)
+plot(pop.forecast)
+accuracy(pop.forecast)
 
-plot.ts(fitHW2.2$residuals)
-plotForecastErrors(fitHW2.2$residuals)
-
-###ARIMA
-acf(dts)
-pacf(dts)
-
-plot(diff(log(dts)))
-ddts <- diff(log(dts))
-
-acf(ddts, lag.max=20)
-acf(ddts, lag.max=20, plot=FALSE)
-pacf(ddts, lag.max=20) # plot a partial correlogram
-pacf(ddts, lag.max=20, plot=FALSE) 
-auto.arima(dts)
-
-ddts.arima <- arima(dts, order=c(4,2,3))# fit an ARIMA(4,2,3) model
-ddts.arima2 <- arima(dts, order=c(2,1,2))
-
-arima.forecast <- forecast.Arima(ddts.arima, h=10)
-arima.forecast
-summary(arima.forecast)
-plot(arima.forecast)
-accuracy(arima.forecast)
-
-acf(arima.forecast$residuals, lag.max=20)
-Box.test(arima.forecast$residuals, lag=20, type="Ljung-Box")
+acf(pop.forecast$residuals, lag.max=20)
+Box.test(pop.forecast$residuals, lag=20, type="Ljung-Box")
 # Box-Ljung test
 # data:  arima.forecast$residuals
 # X-squared = 27.1241, df = 20, p-value = 0.1318
