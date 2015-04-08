@@ -270,3 +270,5 @@ Box.test(fert.forecast$residuals, lag=20, type="Ljung-Box")
 # Box-Ljung test
 # data:  fert.forecast$residuals
 # X-squared = 10.7253, df = 20, p-value = 0.953
+
+
