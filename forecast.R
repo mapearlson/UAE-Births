@@ -237,6 +237,36 @@ Box.test(pop.forecast2$residuals, lag=20, type="Ljung-Box")
 plot.ts(pop.forecast$residuals) # make time plot of forecast errors
 plotForecastErrors(arima.forecast$residuals) # make a histogram
 
+
+
+#####################################################Fertility
 fert.ts <- ts(d$fert, start=c(1960, 1), end=c(2012, 1), frequency=1)
+acf(fert.ts)
+pacf(fert.ts)
+plot(fert.ts)
+fert.diff <- diff(fert.ts, differences=1)
+plot.ts(fert.diff)
+plot.ts(fert.ts)
 
+plot(diff(log(fert.ts)))
+fert.diff <- diff(log(fert.ts))
 
+acf(fert.ts, lag.max=20)
+acf(fert.ts, lag.max=20, plot=FALSE)
+pacf(fert.ts, lag.max=20) # plot a partial correlogram
+pacf(fert.ts, lag.max=20, plot=FALSE) 
+auto.arima(fert.ts)
+
+fert.arima <- arima(fert.ts, order=c(2,2,2))
+
+fert.forecast <- forecast.Arima(fert.arima, h=10)
+fert.forecast
+summary(fert.forecast)
+plot(fert.forecast)
+accuracy(fert.forecast)
+
+acf(fert.forecast$residuals, lag.max=20)
+Box.test(fert.forecast$residuals, lag=20, type="Ljung-Box")
+# Box-Ljung test
+# data:  fert.forecast$residuals
+# X-squared = 10.7253, df = 20, p-value = 0.953
