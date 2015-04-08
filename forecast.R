@@ -209,6 +209,7 @@ Box.test(pop.forecast$residuals, lag=20, type="Ljung-Box")
 # X-squared = 58.2301, df = 20, p-value = 1.333e-05
 
 pop.arima <- arima(pop.ts, order=c(1,2,1))# fit an ARIMA(1,2,1) model
+pop.arima2 <- arima(pop.ts, order=c(1,2,4))
 
 pop.forecast <- forecast.Arima(pop.arima, h=10)
 pop.forecast
@@ -216,13 +217,24 @@ summary(pop.forecast)
 plot(pop.forecast)
 accuracy(pop.forecast)
 
+pop.forecast2 <- forecast.Arima(pop.arima2, h=10)
+pop.forecast2
+summary(pop.forecast2)
+plot(pop.forecast2)
+accuracy(pop.forecast2)
+
 acf(pop.forecast$residuals, lag.max=20)
 Box.test(pop.forecast$residuals, lag=20, type="Ljung-Box")
+
 # Box-Ljung test
 # data:  arima.forecast$residuals
 # X-squared = 27.1241, df = 20, p-value = 0.1318
 
-plot.ts(arima.forecast$residuals) # make time plot of forecast errors
+acf(pop.forecast2$residuals, lag.max=20)
+Box.test(pop.forecast2$residuals, lag=20, type="Ljung-Box")
+
+
+plot.ts(pop.forecast$residuals) # make time plot of forecast errors
 plotForecastErrors(arima.forecast$residuals) # make a histogram
 
 fert.ts <- ts(d$fert, start=c(1960, 1), end=c(2012, 1), frequency=1)
