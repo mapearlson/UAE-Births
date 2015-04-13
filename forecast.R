@@ -208,8 +208,8 @@ Box.test(pop.forecast$residuals, lag=20, type="Ljung-Box")
 # data:  pop.forecast$residuals
 # X-squared = 58.2301, df = 20, p-value = 1.333e-05
 
-pop.arima <- arima(pop.ts, order=c(1,2,1))# fit an ARIMA(1,2,1) model
-pop.arima2 <- arima(pop.ts, order=c(1,2,4))
+pop.arima <- arima(pop.ts, order=c(1,2,4))# fit an ARIMA(1,2,1) model
+pop.arima2 <- arima(pop.ts, order=c(0,2,1))
 
 pop.forecast <- forecast.Arima(pop.arima, h=10)
 pop.forecast
